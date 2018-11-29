@@ -1,12 +1,11 @@
 import csv
 
-fixMappings=[]
 
 with open('fixMappings.csv') as fm:
     reader = csv.DictReader(fm)
     tagFields ={}
     for row in reader:
-        tagfields = {row['Tag']:row['Field']}
-        fixMappings.append(tagfields)
+        tagFields[row['Tag']] = row['Field']
 
-print(fixMappings[40])
+    print(tagFields['40'])
+
