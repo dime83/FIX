@@ -4,17 +4,20 @@ def validFIXVersion(allfixVersions):
     fixFiles={}
     fixFiles['FIX.4.2'] = 'fixMappings_42.csv'
     fixFiles['FIX.4.4'] = 'fixMappings_44.csv'
-   
-    for i in allfixVersions:
-        if i in fixFiles:
-            next
+    fixFiles['FIX.5.0'] = 'fixMappings_50.csv'
+
+    if (len(set(allfixVersions)) == 1):
+        if allfixVersions[0] in fixFiles:
+            return fixFiles[str(allfixVersions[0])]
         else:
             return -1
-        if len(set(allfixVersions)) == 1:
-            return 1
-        else:
-            return 0
+    else:
+        FIXVer = allfixVersions[0]
+        fixFile = fixFiles['FIXVer']
+        print(fixFile)
+        return 0
 
+# CHeck validity of file
 with open('fix.csv') as mycsv:
     csv_reader = csv.reader(mycsv, delimiter=",")
 
@@ -37,7 +40,8 @@ with open('fix.csv') as mycsv:
     elif(fixOK==0):
         print("Not all lines are the same FIX version, please correct")
     else:
-        print("Can proceed")
+        
+        print("HELLO" + fixOK)
         
 mycsv.close()
 
@@ -62,10 +66,6 @@ with open('fix.csv') as mycsv:
             
             # Proceed to assign all other tags
             my_dict[tagFields[k]] = v    
-
-        # Determine the correct FIX version map to use
-        firstFIXVer = my_dict['8']
-        validFixVersion(firstFIXVer)
         
         fixDict.append(my_dict)
 
