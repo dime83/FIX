@@ -6,15 +6,18 @@ def validFIXVersion(allfixVersions):
     fixFiles['FIX.4.4'] = 'fixMappings_44.csv'
     fixFiles['FIX.5.0'] = 'fixMappings_50.csv'
 
+    # if there is only one version of FIX in all rows
     if (len(set(allfixVersions)) == 1):
+
+        # if we have mappings for the version in the file
         if allfixVersions[0] in fixFiles:
             return fixFiles[str(allfixVersions[0])]
         else:
             return -1
     else:
-        FIXVer = allfixVersions[0]
-        fixFile = fixFiles['FIXVer']
-        print(fixFile)
+#        FIXVer = allfixVersions[0]
+#        fixFile = fixFiles['FIXVer']
+#        print(fixFile)
         return 0
 
 # CHeck validity of file
@@ -37,8 +40,10 @@ with open('fix.csv') as mycsv:
     fixOK = validFIXVersion(fixVersions)
     if(fixOK==-1):
         print("Unsupported FIX Version")
+        quit()
     elif(fixOK==0):
         print("Not all lines are the same FIX version, please correct")
+        quit()
     else:
         
         print("HELLO" + fixOK)
@@ -46,7 +51,7 @@ with open('fix.csv') as mycsv:
 mycsv.close()
 
 # Open FIX mappings and add them to the dictionary
-with open('fixMappings_42.csv') as fm:
+with open(fixOK) as fm:
     reader = csv.DictReader(fm)
     tagFields ={}
     for row in reader:
@@ -69,12 +74,12 @@ with open('fix.csv') as mycsv:
         
         fixDict.append(my_dict)
 
-    for element in fixDict:
-        print(element)
+#    for element in fixDict:
+#        print(element)
 mycsv.close()
 
 with open('convertedfix.csv', mode='w') as converted_fix:
-    fieldnames = ['MsgType','Symbol','OrdType']
+    fieldnames = ['MsgType','OrdType']
     writer = csv.DictWriter(converted_fix,fieldnames=fieldnames,extrasaction='ignore')
 
     writer.writeheader()
